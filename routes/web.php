@@ -32,6 +32,7 @@ Route::group(['middleware' => ['admin', 'web']], function () {
     Route::get('/product/edit/{id}',[ProductController::class,'edit'])->name('product.edit');
     Route::post('/product/update/{id}', [ProductController::class,'update'])->name('product.update');
     Route::get('/admin/distributors', [DistributorController::class, 'index'])->name('admin.distributor');
+    
 
     
 });
