@@ -1,9 +1,12 @@
 <?php
 use App\Http\Controllers\Auth\AuthController;
+use App\Models\Distributor;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\Admin\DistributorController;
+
 
 // Guest Route 
 Route::group(['middleware' => 'guest'], function () {
@@ -28,6 +31,9 @@ Route::group(['middleware' => ['admin', 'web']], function () {
     Route::delete('/product/delete/{id}', [ProductController::class,'delete'])->name('product.delete');
     Route::get('/product/edit/{id}',[ProductController::class,'edit'])->name('product.edit');
     Route::post('/product/update/{id}', [ProductController::class,'update'])->name('product.update');
+    Route::get('/admin/distributors', [DistributorController::class, 'index'])->name('admin.distributor');
+
+    
 });
 
 // User Route

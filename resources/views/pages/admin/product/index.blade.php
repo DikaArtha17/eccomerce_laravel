@@ -9,6 +9,7 @@
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item active">
                     <a href="{{ route('admin.dashboard') }}">Dashboard</a>
+                    <a href="{{ route('admin.dashboard') }}">Distributor</a>
                 </div>
                 <div class="breadcrumb-item">Produk</div>
             </div>
