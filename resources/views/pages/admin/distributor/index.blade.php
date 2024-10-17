@@ -1,4 +1,5 @@
 @extends('layouts.admin.main')
+
 @section('title', 'Admin Distributor')
 @section('content')
 <div class="main-content">
@@ -9,8 +10,9 @@
                 <div class="breadcrumb-item"></div>
             </div>
         </div>
-        <a href="{{ route('distributor.create') }}" class="btn btn-icon icon-left btn-primary">
-            <i class="fas fa-plus"></i> Distributor</a>
+        <a href="{{ route('distributor.create') }}" class="btn  btn-icon icon-left btn-primary"><i
+                class="fas fa-plus"></i>
+            Tambah Distributor</a>
 
         <div class="card-body">
             <div class="table-responsive">
@@ -22,6 +24,7 @@
                         <th>Provinsi</th>
                         <th>Kontak</th>
                         <th>Email</th>
+                        <th>Aksi</th>
                     </tr>
                     @php
                         $no = 0
@@ -35,10 +38,19 @@
                             <td>{{ $item->provinsi }} </td>
                             <td>{{ $item->kontak }} </td>
                             <td>{{ $item->email }} </td>
-                            <td> <a href="{{ route('distributor.detail', $item->id) }}" class="badge badge-info">Detail</a>
-                                <a href="{{ route('distributor.edit', $item->id) }}" class="badge badge-warning"> Edit </a>
-                                <a href="{{ route('distributor.delete', $item->id) }}" class="badge badge-danger"
-                                    data-confirm-delete="true">Hapus</a>
+                            <td>
+                                <a href="{{ route('distributor.edit', $item->id) }}" class="badge badge-info">edit</a>
+                                <form action="{{ route('distributor.delete', $item->id) }}" method="POST"
+                                    style="display: inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="badge badge-danger border-0"
+                                        data-confirm-delete="true">Hapus</button>
+                                </form>
+
+                            </td>
+
+
 
                         </tr>
                     @empty
