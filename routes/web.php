@@ -1,4 +1,5 @@
 <?php
+use App\Http\Controllers\Admin\FlashsaleController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Models\Distributor;
 use Illuminate\Support\Facades\Route;
@@ -6,6 +7,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Admin\DistributorController;
+
 
 
 // Guest Route 
@@ -31,6 +33,7 @@ Route::group(['middleware' => ['admin', 'web']], function () {
     Route::delete('/product/delete/{id}', [ProductController::class, 'delete'])->name('product.delete');
     Route::get('/product/edit/{id}', [ProductController::class, 'edit'])->name('product.edit');
     Route::post('/product/update/{id}', [ProductController::class, 'update'])->name('product.update');
+    Route::get('/admin/flashsales', [FlashsaleController::class, 'index'])->name('admin.flashsale');
 
 
     Route::get('/admin/distributor', [DistributorController::class, 'index'])->name('admin.distributor');
@@ -39,6 +42,11 @@ Route::group(['middleware' => ['admin', 'web']], function () {
     Route::get('/admin/distributor/edit/{id}', [DistributorController::class, 'edit'])->name('distributor.edit');
     Route::post('/admin/distributor/update/{id}', [DistributorController::class, 'update'])->name('distributor.update');
     Route::delete('/admin/distributor/delete/{id}', [DistributorController::class, 'delete'])->name('distributor.delete');
+
+    Route::get('/admin/flashsale/create', [FlashsaleController::class, 'create'])->name('flashsale.create');
+    Route::post('/admin/flashsale/store', [FlashsaleController::class, 'store'])->name('flashsale.store');
+    Route::get('/admin/flashsale/edit/{id}', [FlashsaleController::class, 'edit'])->name('flashsale.edit');
+    Route::post('/admin/flashsale/update/{id}', [FlashsaleController::class, 'update'])->name('flashsale.update');
 
 
 
