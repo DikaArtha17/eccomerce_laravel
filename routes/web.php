@@ -47,7 +47,9 @@ Route::group(['middleware' => ['admin', 'web']], function () {
     Route::post('/admin/flashsale/store', [FlashsaleController::class, 'store'])->name('flashsale.store');
     Route::get('/admin/flashsale/edit/{id}', [FlashsaleController::class, 'edit'])->name('flashsale.edit');
     Route::post('/admin/flashsale/update/{id}', [FlashsaleController::class, 'update'])->name('flashsale.update');
-
+    Route::get('/admin/flashsale', [FlashsaleController::class, 'index'])->name('admin.flashsale');
+    Route::get('/admin/flashsale/detail/{id}', [FlashsaleController::class, 'detail'])->name('flashsale.detail');
+    Route::delete('/admin/flashsale/delete/{id}', [FlashsaleController::class, 'delete'])->name('flashsale.delete');
 
 
 
