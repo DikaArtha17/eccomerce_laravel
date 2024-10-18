@@ -12,7 +12,7 @@ class FlashSale extends Model
         'product_name',
         'original_price',
         'discount_price',
-        'discount_percentage',
+        
         'start_time',
         'end_time', 
         'stock',

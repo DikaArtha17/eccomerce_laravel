@@ -13,8 +13,7 @@ class FlashsaleController extends Controller
     public function index()
     {
         $flashSales = FlashSale::all();
-        confirmDelete('Hapus Data!', 'Apakah anda yakin ingin menghapus data 
-ini?');
+        confirmDelete('Hapus Data!', 'Apakah anda yakin ingin menghapus data ini?');
 
         return view('pages.admin.flashsale.index', compact('flashSales'));
     }
@@ -33,6 +32,7 @@ ini?');
             'start_time' => 'required|date',
             'end_time' => 'required|date',
             'stock' => 'required|integer',
+            'status'=> 'required|boolean',
             'image' => 'required|mimes:png,jpeg,jpg',
         ]);
 
@@ -42,7 +42,7 @@ ini?');
     }
 
 
-    // Menampilkan detail Flash Sale 
+    
     public function detail($id)
     {
         $flashSale = FlashSale::findOrFail($id);
@@ -50,14 +50,13 @@ ini?');
         return view('pages.admin.flashsale.detail', compact('flashSales'));
     }
 
-    // Menampilkan form edit Flash Sale 
+    
     public function edit($id)
     {
-        $flashSale = FlashSale::findOrFail($id);
-        return view('admin.flashsale.edit', compact('flashSales'));
+        $flashsale = FlashSale::findOrFail($id);
+        return view('pages.admin.flashsale.edit', compact('flashsale'));
     }
-
-    // Mengupdate data Flash Sale 
+    
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
@@ -67,40 +66,43 @@ ini?');
             'start_time' => 'required|date',
             'end_time' => 'required|date',
             'stock' => 'required|integer',
+            'status'=> 'required|boolean',
             'image' => 'nullable|mimes:png,jpeg,jpg',
         ]);
 
         if ($validator->fails()) {
             Alert::error('Gagal!', 'Pastikan semua terisi dengan benar!');
-            return redirect()->back();
+            return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        $flashSale = FlashSale::findOrFail($id);
+        $flashsale = FlashSale::findOrFail($id);
 
+        // Handle image upload
         if ($request->hasFile('image')) {
-            $oldPath = public_path('images/' . $flashSale->image);
+            $oldPath = public_path('images/' . $flashsale->image);
             if (File::exists($oldPath)) {
                 File::delete($oldPath);
             }
-
             $image = $request->file('image');
             $imageName = time() . '.' . $image->getClientOriginalExtension();
             $image->move('images/', $imageName);
         } else {
-            $imageName = $flashSale->image;
+            $imageName = $flashsale->image; // Keep the old image if no new one is uploaded
         }
 
-        $flashSale->update([
+        // Update the record
+        $flashsale->update([
             'product_name' => $request->product_name,
             'original_price' => $request->original_price,
             'discount_price' => $request->discount_price,
             'start_time' => $request->start_time,
             'end_time' => $request->end_time,
             'stock' => $request->stock,
+            'status'=> $request->status,
             'image' => $imageName,
         ]);
 
-        if ($flashSale) {
+        if ($flashsale) {
             Alert::success('Berhasil!', 'Flash Sale berhasil diperbarui!');
             return redirect()->route('admin.flashsale.index');
         } else {
@@ -108,6 +110,7 @@ ini?');
             return redirect()->back();
         }
     }
+
 
     // Menghapus data Flash Sale 
     public function delete($id)
